@@ -1,0 +1,13 @@
+spring:
+    application:
+        name: StrideChatBot
+
+security:
+  oauth2:
+    client:
+      clientId: oNsrLtt0kxifY7uWrfr2JSPmf92BFH1v
+      clientSecret: wZGgfUj12RqqOjIyJzGGRn74bN9fdZkcpaikrBIX0rlY5-BaBtcLui51rXcuUqeq
+      accessTokenUri: https://api.atlassian.com/oauth/token
+      userAuthorizationUri: https://48a4c367.ngrok.io/
+    resource:
+      userInfoUri: bugfix

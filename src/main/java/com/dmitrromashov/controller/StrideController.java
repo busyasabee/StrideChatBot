@@ -1,6 +1,7 @@
 package com.dmitrromashov.controller;
 
 import com.dmitrromashov.service.StrideService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import static org.springframework.http.HttpStatus.TEMPORARY_REDIRECT;
 @RestController
 //@RequestMapping("/stridechat/*")
 public class StrideController {
+    @Autowired
     private StrideService strideService;
     @GetMapping("/start-auth")
     @ResponseStatus(TEMPORARY_REDIRECT)
@@ -30,10 +32,12 @@ public class StrideController {
 
     @GetMapping("/descriptor")
     public String returnDescriptor(){
-        String json = "{ \"baseUrl\": \"https://48a4c367.ngrok.io\", " +
-                "\"key\": \"stride-bot\"," +
+        String json = "{\"baseUrl\": \"https://6dbad27d.ngrok.io\", " +
+                "\"key\": \"stride-bot2\"," +
                 "\"lifecycle\": {\"installed\": \"/installed\", \"uninstalled\": \"/uninstalled\"}," +
-                "\"modules\": {}}";
+                "\"modules\": {\"chat:bot\": [ " +
+                "{ \"key\": \"my-bot\", \"mention\": { \"url\": \"/bot-mention\" }," +
+                "\"directMessage\": { \"url\": \"/bot-dm\"}}]}}";
         return json;
     }
 
@@ -47,6 +51,13 @@ public class StrideController {
     @PostMapping("/uninstalled")
     public void uninstallAction(){
         System.out.println("App uninstalled");
+
+    }
+
+    @PostMapping("/bot-mention")
+    public void botMention(@RequestBody String message){
+        System.out.println(message);
+        //strideService.sendAnswerToBotMention(message);
 
     }
 }

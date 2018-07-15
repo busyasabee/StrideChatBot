@@ -5,9 +5,9 @@ spring:
 security:
   oauth2:
     client:
-      clientId: oNsrLtt0kxifY7uWrfr2JSPmf92BFH1v
-      clientSecret: wZGgfUj12RqqOjIyJzGGRn74bN9fdZkcpaikrBIX0rlY5-BaBtcLui51rXcuUqeq
+      clientId: GPvwrGWgxPG08OuFs5CUtPAXn0Lr1bcU
+      clientSecret: krcqXOQzfFmniFZ3p-1mZNvLz0rigvalqrtbpr1TRShoEb7LYGN0fQdnMxSyf4pk
       accessTokenUri: https://api.atlassian.com/oauth/token
-      userAuthorizationUri: https://48a4c367.ngrok.io/
+      userAuthorizationUri: https://aeece167.ngrok.io
     resource:
-      userInfoUri: bugfix
+      userInfoUri: bugfix2

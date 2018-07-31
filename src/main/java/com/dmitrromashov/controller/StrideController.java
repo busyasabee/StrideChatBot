@@ -4,40 +4,43 @@ import com.dmitrromashov.service.StrideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.TEMPORARY_REDIRECT;
-
 @RestController
-//@RequestMapping("/stridechat/*")
 public class StrideController {
-    @Autowired
-    private StrideService strideService;
-    @GetMapping("/start-auth")
-    @ResponseStatus(TEMPORARY_REDIRECT)
-    public void strideAuthStart(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-        final String authorizePageUrl = strideService.startAuth(request.getSession(true));
-        response.sendRedirect(authorizePageUrl);
-    }
 
-    @GetMapping("/finish-auth")
-    @ResponseStatus(TEMPORARY_REDIRECT)
-    public void strideAuthFinish(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        strideService.finishAuthAndSaveUserDetails(request.getSession(true), request.getParameterMap());
-        response.setStatus(OK.value());
+    private StrideService strideService;
+
+
+    @Autowired
+    public StrideController(StrideService service){
+        this.strideService = service;
+
     }
 
     @GetMapping("/descriptor")
     public String returnDescriptor(){
-        String json = "{\"baseUrl\": \"https://6dbad27d.ngrok.io\", " +
-                "\"key\": \"stride-bot2\"," +
-                "\"lifecycle\": {\"installed\": \"/installed\", \"uninstalled\": \"/uninstalled\"}," +
-                "\"modules\": {\"chat:bot\": [ " +
-                "{ \"key\": \"my-bot\", \"mention\": { \"url\": \"/bot-mention\" }," +
-                "\"directMessage\": { \"url\": \"/bot-dm\"}}]}}";
+        String ngrokUrl = "https://40d5a156.ngrok.io";
+        String strideBotKey = "stride-bot-key-drom";
+
+        String json =
+                "{" +
+                    "\"baseUrl\": \"" + ngrokUrl + "\", " +
+                    "\"key\": \"" + strideBotKey + "\"," +
+                    "\"lifecycle\": " +
+                        "{ " +
+                            "\"installed\": \"/installed\", " +
+                            "\"uninstalled\": \"/uninstalled\" " +
+                        "}," +
+                    "\"modules\": " +
+                        "{" +
+                            "\"chat:bot\": " +
+                                    "[ " +
+                                        "{ " +
+                                            "\"key\": \"my-bot\", \"mention\": { \"url\": \"/bot-mention\" }," +
+                                            "\"directMessage\": { \"url\": \"/bot-dm\"}" +
+                                        "}" +
+                                    "]" +
+                        "}" +
+                "}";
         return json;
     }
 
@@ -56,8 +59,6 @@ public class StrideController {
 
     @PostMapping("/bot-mention")
     public void botMention(@RequestBody String message){
-        System.out.println(message);
-        //strideService.sendAnswerToBotMention(message);
-
+        strideService.sendAnswerToBotMention(message);
     }
 }
